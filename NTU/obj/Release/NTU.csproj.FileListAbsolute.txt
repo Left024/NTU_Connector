@@ -1,0 +1,14 @@
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Release\NTU.exe.config
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Release\NTU.exe.manifest
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Release\NTU.application
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Release\NTU.exe
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Release\NTU.pdb
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.csprojAssemblyReference.cache
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.Form1.resources
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.Properties.Resources.resources
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.csproj.GenerateResource.cache
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.csproj.CoreCompileInputs.cache
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.exe.manifest
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.application
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.exe
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Release\NTU.pdb

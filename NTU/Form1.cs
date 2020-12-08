@@ -24,6 +24,14 @@ namespace NTU
             
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
+            UsernameTextBox.Text = ConfigurationManager.AppSettings["username"].ToString();
+
+            String xyw = ConfigurationManager.AppSettings["xyw"].ToString();
+
+            if (xyw == "true")
+            { 
+                
+            }
 
         }
 
@@ -39,7 +47,9 @@ namespace NTU
 
             Configuration config = ConfigurationManager.OpenExeConfiguration(file);
 
-            config.AppSettings.Settings["name"].Value = UsernameTextBox.Text.Trim();
+            config.AppSettings.Settings["username"].Value = UsernameTextBox.Text.Trim();
+
+            config.AppSettings.Settings["xyw"].Value = xyw.Checked.ToString();
 
             config.Save(ConfigurationSaveMode.Modified);
 

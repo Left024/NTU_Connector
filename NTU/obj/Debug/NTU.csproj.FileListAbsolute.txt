@@ -8,3 +8,7 @@ C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.csproj.GenerateResource.cache
 C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.csproj.CoreCompileInputs.cache
 C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.exe
 C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.pdb
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\NTU.exe.manifest
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\NTU.application
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.exe.manifest
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.application
