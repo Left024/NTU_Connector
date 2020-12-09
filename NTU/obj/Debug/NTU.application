@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="NTU.exe.manifest" size="3393">
+    <dependentAssembly dependencyType="install" codebase="NTU.exe.manifest" size="4031">
       <assemblyIdentity name="NTU.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>sy4U7BjaaqCu+Ququx4ZPYm/25QMvcKW3JhmdXjl9nw=</dsig:DigestValue>
+        <dsig:DigestValue>QWJ1L2jwFQmttyZ3X7zTMeW1RIhn+YXXhz7Oj3AspUU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

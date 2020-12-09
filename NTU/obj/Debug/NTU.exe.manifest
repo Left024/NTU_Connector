@@ -42,14 +42,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NTU.exe" size="14808">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NTU.exe" size="16344">
       <assemblyIdentity name="NTU" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>y3TsW9cOPnVBY1mFd9zXc4u2sKe3plPDpBnBt8qXTrw=</dsig:DigestValue>
+        <dsig:DigestValue>CPZdlUIKvDG8sS08QZDRkWPR3G378hW/J8MgfevpGt4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SimpleWifi.dll" size="54784">
+      <assemblyIdentity name="SimpleWifi" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>gDwsIsaqz4Anla0SmTHx6noGv2bANrWXufWqd/wDEiE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
