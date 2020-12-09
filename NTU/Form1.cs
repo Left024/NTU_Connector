@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Windows.Forms;
 using SimpleWifi;
-using System.Net.Http;
 using System.Net;
 
 namespace NTU
