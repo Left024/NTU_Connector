@@ -52,7 +52,7 @@ namespace NTU
             // 
             this.xyw.AutoSize = true;
             this.xyw.Location = new System.Drawing.Point(60, 48);
-            this.xyw.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.xyw.Margin = new System.Windows.Forms.Padding(6);
             this.xyw.Name = "xyw";
             this.xyw.Size = new System.Drawing.Size(113, 28);
             this.xyw.TabIndex = 0;
@@ -64,7 +64,7 @@ namespace NTU
             // 
             this.cmcc.AutoSize = true;
             this.cmcc.Location = new System.Drawing.Point(218, 48);
-            this.cmcc.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cmcc.Margin = new System.Windows.Forms.Padding(6);
             this.cmcc.Name = "cmcc";
             this.cmcc.Size = new System.Drawing.Size(89, 28);
             this.cmcc.TabIndex = 1;
@@ -76,7 +76,7 @@ namespace NTU
             // 
             this.unicom.AutoSize = true;
             this.unicom.Location = new System.Drawing.Point(360, 48);
-            this.unicom.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.unicom.Margin = new System.Windows.Forms.Padding(6);
             this.unicom.Name = "unicom";
             this.unicom.Size = new System.Drawing.Size(89, 28);
             this.unicom.TabIndex = 2;
@@ -88,7 +88,7 @@ namespace NTU
             // 
             this.telecom.AutoSize = true;
             this.telecom.Location = new System.Drawing.Point(516, 48);
-            this.telecom.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.telecom.Margin = new System.Windows.Forms.Padding(6);
             this.telecom.Name = "telecom";
             this.telecom.Size = new System.Drawing.Size(89, 28);
             this.telecom.TabIndex = 3;
@@ -119,7 +119,7 @@ namespace NTU
             // UsernameTextBox
             // 
             this.UsernameTextBox.Location = new System.Drawing.Point(304, 132);
-            this.UsernameTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.UsernameTextBox.Margin = new System.Windows.Forms.Padding(6);
             this.UsernameTextBox.Name = "UsernameTextBox";
             this.UsernameTextBox.Size = new System.Drawing.Size(272, 35);
             this.UsernameTextBox.TabIndex = 6;
@@ -127,7 +127,7 @@ namespace NTU
             // PasswordTextBox
             // 
             this.PasswordTextBox.Location = new System.Drawing.Point(304, 210);
-            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(6);
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.Size = new System.Drawing.Size(272, 35);
             this.PasswordTextBox.TabIndex = 7;
@@ -136,7 +136,7 @@ namespace NTU
             // login
             // 
             this.login.Location = new System.Drawing.Point(162, 294);
-            this.login.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.login.Margin = new System.Windows.Forms.Padding(6);
             this.login.Name = "login";
             this.login.Size = new System.Drawing.Size(150, 64);
             this.login.TabIndex = 8;
@@ -146,7 +146,7 @@ namespace NTU
             // logout
             // 
             this.logout.Location = new System.Drawing.Point(430, 294);
-            this.logout.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.logout.Margin = new System.Windows.Forms.Padding(6);
             this.logout.Name = "logout";
             this.logout.Size = new System.Drawing.Size(150, 64);
             this.logout.TabIndex = 9;
@@ -157,29 +157,31 @@ namespace NTU
             // 
             this.runlogin.AutoSize = true;
             this.runlogin.Location = new System.Drawing.Point(24, 370);
-            this.runlogin.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.runlogin.Margin = new System.Windows.Forms.Padding(6);
             this.runlogin.Name = "runlogin";
             this.runlogin.Size = new System.Drawing.Size(258, 28);
             this.runlogin.TabIndex = 10;
             this.runlogin.Text = "软件启动时自动连接";
             this.runlogin.UseVisualStyleBackColor = true;
+            this.runlogin.Click += new System.EventHandler(this.runlogin_Click);
             // 
             // startlogin
             // 
             this.startlogin.AutoSize = true;
             this.startlogin.Location = new System.Drawing.Point(300, 370);
-            this.startlogin.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.startlogin.Margin = new System.Windows.Forms.Padding(6);
             this.startlogin.Name = "startlogin";
             this.startlogin.Size = new System.Drawing.Size(186, 28);
             this.startlogin.TabIndex = 11;
             this.startlogin.Text = "开机自动连接";
             this.startlogin.UseVisualStyleBackColor = true;
+            this.startlogin.Click += new System.EventHandler(this.startlogin_Click);
             // 
             // autoreconnect
             // 
             this.autoreconnect.AutoSize = true;
             this.autoreconnect.Location = new System.Drawing.Point(516, 370);
-            this.autoreconnect.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.autoreconnect.Margin = new System.Windows.Forms.Padding(6);
             this.autoreconnect.Name = "autoreconnect";
             this.autoreconnect.Size = new System.Drawing.Size(138, 28);
             this.autoreconnect.TabIndex = 12;
@@ -192,10 +194,10 @@ namespace NTU
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 424);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 440);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 28, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(724, 38);
+            this.statusStrip1.Size = new System.Drawing.Size(724, 22);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 13;
             this.statusStrip1.Text = "statusStrip1";
@@ -203,13 +205,13 @@ namespace NTU
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(316, 28);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(347, 12);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(316, 28);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(347, 12);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // Form1
@@ -232,7 +234,7 @@ namespace NTU
             this.Controls.Add(this.cmcc);
             this.Controls.Add(this.xyw);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;

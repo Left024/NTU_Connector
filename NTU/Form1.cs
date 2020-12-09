@@ -70,6 +70,36 @@ namespace NTU
             UsernameTextBox.Text = ConfigurationManager.AppSettings["username"].ToString();
             //密码读取
             PasswordTextBox.Text = ConfigurationManager.AppSettings["password"].ToString();
+            //软件启动连接读取
+            String runStr= ConfigurationManager.AppSettings["runlogin"].ToString();
+            if (runStr == "True")
+            {
+                runlogin.Checked = true;
+            }
+            else
+            {
+                runlogin.Checked = false;
+            }
+            //开机自动连接读取
+            String startStr = ConfigurationManager.AppSettings["startlogin"].ToString();
+            if (startStr == "True")
+            {
+                startlogin.Checked = true;
+            }
+            else
+            {
+                startlogin.Checked = false;
+            }
+            //自动重连读取
+            String autoStr = ConfigurationManager.AppSettings["autoreconnect"].ToString();
+            if (autoStr == "True")
+            {
+                autoreconnect.Checked = true;
+            }
+            else
+            {
+                autoreconnect.Checked = false;
+            }
 
         }
 
@@ -97,6 +127,10 @@ namespace NTU
             config.AppSettings.Settings["username"].Value = UsernameTextBox.Text.Trim();
             //密码记录
             config.AppSettings.Settings["password"].Value = PasswordTextBox.Text.Trim();
+            //软件启动选项记录
+            config.AppSettings.Settings["runlogin"].Value = runlogin.Checked.ToString().Trim();
+            //启动连接选项记录
+            config.AppSettings.Settings["startlogin"].Value = startlogin.Checked.ToString().Trim();
             config.Save(ConfigurationSaveMode.Modified);
 
             ConfigurationManager.RefreshSection("appSettings");
@@ -139,6 +173,28 @@ namespace NTU
                 xyw.Checked = false;
                 unicom.Checked = false;
                 cmcc.Checked = false;
+            }
+        }
+
+        
+
+        private void runlogin_Click(object sender, EventArgs e)
+        {
+            if (UsernameTextBox.Text == "" || PasswordTextBox.Text == "")
+            {
+                MessageBox.Show("请填写用户名或者密码！");
+                startlogin.Checked = false;
+                runlogin.Checked = false;
+            }
+        }
+
+        private void startlogin_Click(object sender, EventArgs e)
+        {
+            if (UsernameTextBox.Text == "" || PasswordTextBox.Text == "")
+            {
+                MessageBox.Show("请填写用户名或者密码！");
+                startlogin.Checked = false;
+                runlogin.Checked = false;
             }
         }
     }
