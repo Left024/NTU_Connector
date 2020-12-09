@@ -67,6 +67,8 @@ namespace NTU
             }
             //用户名读取
             UsernameTextBox.Text = ConfigurationManager.AppSettings["username"].ToString();
+            //密码读取
+            PasswordTextBox.Text = ConfigurationManager.AppSettings["password"].ToString();
 
         }
 
@@ -92,6 +94,8 @@ namespace NTU
             config.AppSettings.Settings["telecom"].Value = telecom.Checked.ToString().Trim();
             //用户名记录
             config.AppSettings.Settings["username"].Value = UsernameTextBox.Text.Trim();
+            //密码记录
+            config.AppSettings.Settings["password"].Value = PasswordTextBox.Text.Trim();
             config.Save(ConfigurationSaveMode.Modified);
 
             ConfigurationManager.RefreshSection("appSettings");
