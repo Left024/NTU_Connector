@@ -10,14 +10,23 @@ using System.Configuration;
 using System.Windows.Forms;
 using SimpleWifi;
 using System.Net;
+using Thread = System.Threading.Thread;
+using System.Net.NetworkInformation;
 
 namespace NTU
 {
     public partial class Form1 : Form
     {
+        BackgroundWorker bgworker = new BackgroundWorker();
         public Form1()
         {
             InitializeComponent();
+
+            bgworker.WorkerReportsProgress = true;
+            bgworker.WorkerSupportsCancellation = true;
+            bgworker.DoWork += bgworker_DoWork;
+            //bgworker.ProgressChanged += bgworker_ProgressChanged;
+            //bgworker.RunWorkerCompleted += bgworker_RunWorkerCompleted;
         }
 
         public class CommonData
@@ -36,7 +45,8 @@ namespace NTU
             
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
-            
+            bgworker.RunWorkerAsync();
+
             //校园网选项框读取
             String xywStr = ConfigurationManager.AppSettings["xyw"].ToString();
             if (xywStr == "True")
@@ -309,6 +319,41 @@ namespace NTU
         private void logout_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            toolStripStatusLabel1.Text = "test";
+        }
+
+        void bgworker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            for (; ; )
+            {
+                int i = 0;
+                i = i + 1;
+                Thread.Sleep(100);
+                worker.ReportProgress(i);
+            }
+            
+            /*
+            Ping ping = new Ping();
+            PingReply pr = ping.Send("baidu.com");
+            if (pr.Status == IPStatus.Success)
+            {
+                toolStripStatusLabel1.Text = "已连接";
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = "未连接";
+            }*/
+        }
+
+        void bgworker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            int i = e.ProgressPercentage;
+            toolStripStatusLabel1.Text = e.ProgressPercentage.ToString();
         }
     }
 }
