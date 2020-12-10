@@ -20,6 +20,15 @@ namespace NTU
             InitializeComponent();
         }
 
+        public class CommonData
+        {
+            public static string yys;
+            public static string username;
+            public static string password;
+            public static string url;
+            public static string ip;
+        }
+
         Wifi g_wifi;
 
         private void Form1_Load(object sender, EventArgs e)
@@ -102,7 +111,7 @@ namespace NTU
             {
                 autoreconnect.Checked = false;
             }
-
+            
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -140,6 +149,7 @@ namespace NTU
             ConfigurationManager.RefreshSection("appSettings");
         }
 
+        //校园网选项框
         private void xyw_CheckedChanged(object sender, EventArgs e)
         {
             if (xyw.Checked == true)
@@ -150,6 +160,7 @@ namespace NTU
             }
         }
 
+        //移动选项框
         private void cmcc_CheckedChanged(object sender, EventArgs e)
         {
             if (cmcc.Checked == true)
@@ -160,6 +171,7 @@ namespace NTU
             }
         }
 
+        //联通选项框
         private void unicom_CheckedChanged(object sender, EventArgs e)
         {
             if (unicom.Checked == true)
@@ -170,6 +182,7 @@ namespace NTU
             }
         }
 
+        //电信选项框
         private void telecom_CheckedChanged(object sender, EventArgs e)
         {
             if (telecom.Checked == true)
@@ -181,7 +194,7 @@ namespace NTU
         }
 
         
-
+        //软件启动选项框
         private void runlogin_Click(object sender, EventArgs e)
         {
             if (UsernameTextBox.Text == "" || PasswordTextBox.Text == "")
@@ -193,6 +206,7 @@ namespace NTU
             }
         }
 
+        //开机启动选项框
         private void startlogin_Click(object sender, EventArgs e)
         {
             if (UsernameTextBox.Text == "" || PasswordTextBox.Text == "")
@@ -203,6 +217,7 @@ namespace NTU
             }
         }
 
+        //自动重连选项框
         private void autoreconnect_Click(object sender, EventArgs e)
         {
             if (UsernameTextBox.Text == "" || PasswordTextBox.Text == "")
@@ -220,43 +235,79 @@ namespace NTU
             
             g_wifi = new Wifi();
             var t = g_wifi.GetAccessPoints();
-            foreach (var item in t)
+            if (UsernameTextBox.Text == "" || PasswordTextBox.Text == "")
             {
-                if (item.Name == "NTU")
+                MessageBox.Show("请填写用户名或者密码！");
+                startlogin.Checked = false;
+                runlogin.Checked = false;
+                autoreconnect.Checked = false;
+            }
+            else
+            {
+                string name = Dns.GetHostName();
+                IPAddress[] ipadrlist = Dns.GetHostAddresses(name);
+                CommonData.ip = ipadrlist[1].ToString();
+                if (xyw.Checked == true)
                 {
-                    AuthRequest ar = new AuthRequest(item);
-                    ar.Password = "";
-                    if (item.IsConnected == false)
+                    CommonData.yys = "";
+                }
+                else if (cmcc.Checked == true)
+                {
+                    CommonData.yys = "%40cmcc";
+                }
+                else if (unicom.Checked == true)
+                {
+                    CommonData.yys = "%40unicom";
+                }
+                else if (telecom.Checked == true)
+                {
+                    CommonData.yys = "%40telecom";
+                }
+                CommonData.username = UsernameTextBox.Text;
+                CommonData.password = PasswordTextBox.Text;
+                CommonData.url = "http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C" + CommonData.username + CommonData.yys + "&user_password=" + CommonData.password + "&wlan_user_ip=" + CommonData.ip + "&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=5722";
+                foreach (var item in t)
+                {
+                    if (item.Name == "NTU")
                     {
-                        item.Connect(ar);
-                        for(; ; )
+                        AuthRequest ar = new AuthRequest(item);
+                        ar.Password = "";
+                        if (item.IsConnected == false)
                         {
-                            if (item.IsConnected == true)
+                            item.Connect(ar);
+                            for (; ; )
                             {
-                                string url = string.Format("http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C用户名%40cmcc&user_password=密码&wlan_user_ip=10.6.37.156&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=531");
-                                using (var wc = new WebClient())
+                                if (item.IsConnected == true)
                                 {
-                                    Encoding enc = Encoding.GetEncoding("UTF-8");
-                                    Byte[] pageData = wc.DownloadData(url);
-                                    string re = enc.GetString(pageData);
+                                    string url = string.Format(CommonData.url);
+                                    using (var wc = new WebClient())
+                                    {
+                                        Encoding enc = Encoding.GetEncoding("UTF-8");
+                                        Byte[] pageData = wc.DownloadData(url);
+                                        string re = enc.GetString(pageData);
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         }
-                    }
-                    else
-                    {
-                        string url = string.Format("http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C用户名%40cmcc&user_password=密码&wlan_user_ip=10.6.37.156&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=531");
-                        using (var wc = new WebClient())
+                        else
                         {
-                            Encoding enc = Encoding.GetEncoding("UTF-8");
-                            Byte[] pageData = wc.DownloadData(url);
-                            string re = enc.GetString(pageData);
+                            string url = string.Format(CommonData.url);
+                            using (var wc = new WebClient())
+                            {
+                                Encoding enc = Encoding.GetEncoding("UTF-8");
+                                Byte[] pageData = wc.DownloadData(url);
+                                string re = enc.GetString(pageData);
+                            }
                         }
+
                     }
-                    
                 }
-            }
+            }            
+        }
+
+        private void logout_Click(object sender, EventArgs e)
+        {
             
         }
     }

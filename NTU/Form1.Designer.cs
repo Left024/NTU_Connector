@@ -51,9 +51,10 @@ namespace NTU
             // xyw
             // 
             this.xyw.AutoSize = true;
-            this.xyw.Location = new System.Drawing.Point(30, 24);
+            this.xyw.Location = new System.Drawing.Point(60, 48);
+            this.xyw.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.xyw.Name = "xyw";
-            this.xyw.Size = new System.Drawing.Size(59, 16);
+            this.xyw.Size = new System.Drawing.Size(113, 28);
             this.xyw.TabIndex = 0;
             this.xyw.Text = "校园网";
             this.xyw.UseVisualStyleBackColor = true;
@@ -62,9 +63,10 @@ namespace NTU
             // cmcc
             // 
             this.cmcc.AutoSize = true;
-            this.cmcc.Location = new System.Drawing.Point(109, 24);
+            this.cmcc.Location = new System.Drawing.Point(218, 48);
+            this.cmcc.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.cmcc.Name = "cmcc";
-            this.cmcc.Size = new System.Drawing.Size(47, 16);
+            this.cmcc.Size = new System.Drawing.Size(89, 28);
             this.cmcc.TabIndex = 1;
             this.cmcc.Text = "移动";
             this.cmcc.UseVisualStyleBackColor = true;
@@ -73,9 +75,10 @@ namespace NTU
             // unicom
             // 
             this.unicom.AutoSize = true;
-            this.unicom.Location = new System.Drawing.Point(180, 24);
+            this.unicom.Location = new System.Drawing.Point(360, 48);
+            this.unicom.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.unicom.Name = "unicom";
-            this.unicom.Size = new System.Drawing.Size(47, 16);
+            this.unicom.Size = new System.Drawing.Size(89, 28);
             this.unicom.TabIndex = 2;
             this.unicom.Text = "联通";
             this.unicom.UseVisualStyleBackColor = true;
@@ -84,9 +87,10 @@ namespace NTU
             // telecom
             // 
             this.telecom.AutoSize = true;
-            this.telecom.Location = new System.Drawing.Point(258, 24);
+            this.telecom.Location = new System.Drawing.Point(516, 48);
+            this.telecom.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.telecom.Name = "telecom";
-            this.telecom.Size = new System.Drawing.Size(47, 16);
+            this.telecom.Size = new System.Drawing.Size(89, 28);
             this.telecom.TabIndex = 3;
             this.telecom.Text = "电信";
             this.telecom.UseVisualStyleBackColor = true;
@@ -95,41 +99,46 @@ namespace NTU
             // username
             // 
             this.username.AutoSize = true;
-            this.username.Location = new System.Drawing.Point(65, 69);
+            this.username.Location = new System.Drawing.Point(130, 138);
+            this.username.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.username.Name = "username";
-            this.username.Size = new System.Drawing.Size(41, 12);
+            this.username.Size = new System.Drawing.Size(82, 24);
             this.username.TabIndex = 4;
             this.username.Text = "用户名";
             // 
             // password
             // 
             this.password.AutoSize = true;
-            this.password.Location = new System.Drawing.Point(65, 108);
+            this.password.Location = new System.Drawing.Point(130, 216);
+            this.password.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(29, 12);
+            this.password.Size = new System.Drawing.Size(58, 24);
             this.password.TabIndex = 5;
             this.password.Text = "密码";
             // 
             // UsernameTextBox
             // 
-            this.UsernameTextBox.Location = new System.Drawing.Point(152, 66);
+            this.UsernameTextBox.Location = new System.Drawing.Point(304, 132);
+            this.UsernameTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.UsernameTextBox.Name = "UsernameTextBox";
-            this.UsernameTextBox.Size = new System.Drawing.Size(138, 21);
+            this.UsernameTextBox.Size = new System.Drawing.Size(272, 35);
             this.UsernameTextBox.TabIndex = 6;
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.Location = new System.Drawing.Point(152, 105);
+            this.PasswordTextBox.Location = new System.Drawing.Point(304, 210);
+            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.PasswordTextBox.Name = "PasswordTextBox";
-            this.PasswordTextBox.Size = new System.Drawing.Size(138, 21);
+            this.PasswordTextBox.Size = new System.Drawing.Size(272, 35);
             this.PasswordTextBox.TabIndex = 7;
             this.PasswordTextBox.UseSystemPasswordChar = true;
             // 
             // login
             // 
-            this.login.Location = new System.Drawing.Point(81, 147);
+            this.login.Location = new System.Drawing.Point(162, 294);
+            this.login.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.login.Name = "login";
-            this.login.Size = new System.Drawing.Size(75, 32);
+            this.login.Size = new System.Drawing.Size(150, 64);
             this.login.TabIndex = 8;
             this.login.Text = "登录";
             this.login.UseVisualStyleBackColor = true;
@@ -137,19 +146,22 @@ namespace NTU
             // 
             // logout
             // 
-            this.logout.Location = new System.Drawing.Point(215, 147);
+            this.logout.Location = new System.Drawing.Point(430, 294);
+            this.logout.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.logout.Name = "logout";
-            this.logout.Size = new System.Drawing.Size(75, 32);
+            this.logout.Size = new System.Drawing.Size(150, 64);
             this.logout.TabIndex = 9;
             this.logout.Text = "注销";
             this.logout.UseVisualStyleBackColor = true;
+            this.logout.Click += new System.EventHandler(this.logout_Click);
             // 
             // runlogin
             // 
             this.runlogin.AutoSize = true;
-            this.runlogin.Location = new System.Drawing.Point(12, 185);
+            this.runlogin.Location = new System.Drawing.Point(24, 370);
+            this.runlogin.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.runlogin.Name = "runlogin";
-            this.runlogin.Size = new System.Drawing.Size(132, 16);
+            this.runlogin.Size = new System.Drawing.Size(258, 28);
             this.runlogin.TabIndex = 10;
             this.runlogin.Text = "软件启动时自动连接";
             this.runlogin.UseVisualStyleBackColor = true;
@@ -158,9 +170,10 @@ namespace NTU
             // startlogin
             // 
             this.startlogin.AutoSize = true;
-            this.startlogin.Location = new System.Drawing.Point(150, 185);
+            this.startlogin.Location = new System.Drawing.Point(300, 370);
+            this.startlogin.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.startlogin.Name = "startlogin";
-            this.startlogin.Size = new System.Drawing.Size(96, 16);
+            this.startlogin.Size = new System.Drawing.Size(186, 28);
             this.startlogin.TabIndex = 11;
             this.startlogin.Text = "开机自动连接";
             this.startlogin.UseVisualStyleBackColor = true;
@@ -169,9 +182,10 @@ namespace NTU
             // autoreconnect
             // 
             this.autoreconnect.AutoSize = true;
-            this.autoreconnect.Location = new System.Drawing.Point(258, 185);
+            this.autoreconnect.Location = new System.Drawing.Point(516, 370);
+            this.autoreconnect.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.autoreconnect.Name = "autoreconnect";
-            this.autoreconnect.Size = new System.Drawing.Size(72, 16);
+            this.autoreconnect.Size = new System.Drawing.Size(138, 28);
             this.autoreconnect.TabIndex = 12;
             this.autoreconnect.Text = "自动重连";
             this.autoreconnect.UseVisualStyleBackColor = true;
@@ -183,9 +197,10 @@ namespace NTU
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 209);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 440);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(362, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 28, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(724, 22);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 13;
             this.statusStrip1.Text = "statusStrip1";
@@ -193,20 +208,20 @@ namespace NTU
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(173, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(347, 12);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(173, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(347, 12);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(362, 231);
+            this.ClientSize = new System.Drawing.Size(724, 462);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.autoreconnect);
             this.Controls.Add(this.startlogin);
@@ -222,6 +237,7 @@ namespace NTU
             this.Controls.Add(this.cmcc);
             this.Controls.Add(this.xyw);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
