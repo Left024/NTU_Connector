@@ -41,6 +41,7 @@ namespace NTU
             public static string url;
             public static string ip;
             public static string logout;
+            public static string netstatus;
         }
 
         Wifi g_wifi;
@@ -50,7 +51,7 @@ namespace NTU
             
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
-            bgworker.RunWorkerAsync();
+            
 
             //校园网选项框读取
             String xywStr = ConfigurationManager.AppSettings["xyw"].ToString();
@@ -126,12 +127,21 @@ namespace NTU
             {
                 autoreconnect.Checked = false;
             }
-            
+            bgworker.RunWorkerAsync();
+            //软件启动时连接功能
+
+            if (runlogin.Checked == true)
+            {
+                denglu();
+            }
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            System.Environment.Exit(0);
+            System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
+            tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。  
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -162,6 +172,9 @@ namespace NTU
             config.Save(ConfigurationSaveMode.Modified);
 
             ConfigurationManager.RefreshSection("appSettings");
+            System.Environment.Exit(0);
+            System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
+            tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。  
         }
 
         //校园网选项框
@@ -247,9 +260,6 @@ namespace NTU
         //登录按钮
         private void login_Click(object sender, EventArgs e)
         {
-            
-            g_wifi = new Wifi();
-            var t = g_wifi.GetAccessPoints();
             if (UsernameTextBox.Text == "" || PasswordTextBox.Text == "")
             {
                 MessageBox.Show("请填写用户名或者密码！");
@@ -259,64 +269,7 @@ namespace NTU
             }
             else
             {
-                string name = Dns.GetHostName();
-                CommonData.ip = GetLocalIP();
-                if (xyw.Checked == true)
-                {
-                    CommonData.yys = "";
-                }
-                else if (cmcc.Checked == true)
-                {
-                    CommonData.yys = "%40cmcc";
-                }
-                else if (unicom.Checked == true)
-                {
-                    CommonData.yys = "%40unicom";
-                }
-                else if (telecom.Checked == true)
-                {
-                    CommonData.yys = "%40telecom";
-                }
-                CommonData.username = UsernameTextBox.Text;
-                CommonData.password = PasswordTextBox.Text;
-                CommonData.url = "http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C" + CommonData.username + CommonData.yys + "&user_password=" + CommonData.password + "&wlan_user_ip=" + CommonData.ip + "&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=6376";
-                foreach (var item in t)
-                {
-                    if (item.Name == "NTU")
-                    {
-                        AuthRequest ar = new AuthRequest(item);
-                        ar.Password = "";
-                        if (item.IsConnected == false)
-                        {
-                            item.Connect(ar);
-                            for (; ; )
-                            {
-                                if (item.IsConnected == true)
-                                {
-                                    string url = string.Format(CommonData.url);
-                                    using (var wc = new WebClient())
-                                    {
-                                        Encoding enc = Encoding.GetEncoding("UTF-8");
-                                        Byte[] pageData = wc.DownloadData(url);
-                                        string re = enc.GetString(pageData);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            string url = string.Format(CommonData.url);
-                            using (var wc = new WebClient())
-                            {
-                                Encoding enc = Encoding.GetEncoding("UTF-8");
-                                Byte[] pageData = wc.DownloadData(url);
-                                string re = enc.GetString(pageData);
-                            }
-                        }
-
-                    }
-                }
+                denglu();
             }            
         }
 
@@ -343,16 +296,19 @@ namespace NTU
             for (; ; )
             {
                 Thread.Sleep(1000);
-
-                string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
-                if (baidu.IndexOf("baidu") == -1)
+                //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+                if (Netcheck()==false)
                 {
                     toolStripStatusLabel1.Text = "未连接";
+                    CommonData.netstatus = "-1";
                 }
                 else
                 {
                     toolStripStatusLabel1.Text = "已连接";
+                    CommonData.ip = GetLocalIP();
+                    toolStripStatusLabel2.Text = CommonData.ip;
                 }
+                
             }
             
         }
@@ -421,7 +377,25 @@ namespace NTU
             return charset;
         }
 
-
+        public static bool Netcheck()
+        {
+            string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+            try
+            {
+                if (baidu.IndexOf("baidu") == -1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch(ArgumentNullException)
+            {
+                return false;
+            }
+        }
 
         //https://www.cnblogs.com/lijianda/p/6604651.html
         /// <summary>
@@ -523,6 +497,79 @@ namespace NTU
             {
                 Trace.WriteLine(ex);
                 return ex.Message;
+            }
+        }
+
+        public void denglu()
+        {
+            g_wifi = new Wifi();
+            var t = g_wifi.GetAccessPoints();
+            string name = Dns.GetHostName();
+            CommonData.ip = GetLocalIP();
+            if (xyw.Checked == true)
+            {
+                CommonData.yys = "";
+            }
+            else if (cmcc.Checked == true)
+            {
+                CommonData.yys = "%40cmcc";
+            }
+            else if (unicom.Checked == true)
+            {
+                CommonData.yys = "%40unicom";
+            }
+            else if (telecom.Checked == true)
+            {
+                CommonData.yys = "%40telecom";
+            }
+            CommonData.username = UsernameTextBox.Text;
+            CommonData.password = PasswordTextBox.Text;
+            CommonData.url = "http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C" + CommonData.username + CommonData.yys + "&user_password=" + CommonData.password + "&wlan_user_ip=" + CommonData.ip + "&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=6376";
+            foreach (var item in t)
+            {
+                if (item.Name == "NTU")
+                {
+                    AuthRequest ar = new AuthRequest(item);
+                    ar.Password = "";
+                    if (item.IsConnected == false)
+                    {
+                        item.Connect(ar);
+                        for (; ; )
+                        {
+                            if (item.IsConnected == true)
+                            {
+                                for (; ; )
+                                {
+                                    //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+                                    if (CommonData.netstatus == "-1")
+                                    {
+                                        string url = string.Format(CommonData.url);
+                                        using (var wc = new WebClient())
+                                        {
+                                            Encoding enc = Encoding.GetEncoding("UTF-8");
+                                            Byte[] pageData = wc.DownloadData(url);
+                                            string re = enc.GetString(pageData);
+                                        }
+                                        break;
+                                    }
+                                    break;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        string url = string.Format(CommonData.url);
+                        using (var wc = new WebClient())
+                        {
+                            Encoding enc = Encoding.GetEncoding("UTF-8");
+                            Byte[] pageData = wc.DownloadData(url);
+                            string re = enc.GetString(pageData);
+                        }
+                    }
+
+                }
             }
         }
     }
