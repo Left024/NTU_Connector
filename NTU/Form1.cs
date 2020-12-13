@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.IO;
+using Microsoft.Win32;
 
 namespace NTU
 {
@@ -139,9 +140,9 @@ namespace NTU
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            System.Environment.Exit(0);
-            System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
-            tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。  
+            //System.Environment.Exit(0);
+            //System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
+            //tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。  
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -243,6 +244,20 @@ namespace NTU
                 startlogin.Checked = false;
                 runlogin.Checked = false;
             }
+            if (startlogin.Checked == true)
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
+                Microsoft.Win32.RegistryKey run = key.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                run.SetValue("NTU", System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+
+            }
+            else
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
+                Microsoft.Win32.RegistryKey run = key.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                run.SetValue("NTU", 123);
+            }
+            
         }
 
         //自动重连选项框

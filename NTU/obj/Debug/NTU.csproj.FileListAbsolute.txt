@@ -8,10 +8,6 @@ C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.csproj.GenerateResource.cache
 C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.csproj.CoreCompileInputs.cache
 C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.exe
 C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.pdb
-C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\NTU.exe.manifest
-C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\NTU.application
-C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.exe.manifest
-C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.application
 C:\Users\13797\Documents\NTU\NTU\bin\Debug\NTU.exe.config
 C:\Users\13797\Documents\NTU\NTU\bin\Debug\NTU.exe.manifest
 C:\Users\13797\Documents\NTU\NTU\bin\Debug\NTU.application
@@ -30,3 +26,8 @@ C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\SimpleWifi.dll
 C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.csproj.CopyComplete
 C:\Users\13797\Documents\NTU\NTU\bin\Debug\SimpleWifi.dll
 C:\Users\13797\Documents\NTU\NTU\obj\Debug\NTU.csproj.CopyComplete
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.TrustInfo.xml
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.exe.manifest
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\NTU.exe.manifest
+C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\NTU.application
+C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.application
