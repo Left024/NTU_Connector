@@ -287,6 +287,31 @@ namespace NTU
             else
             {
                 denglu();
+                string file = System.Windows.Forms.Application.ExecutablePath;
+
+                Configuration config = ConfigurationManager.OpenExeConfiguration(file);
+
+                //校园网选项框记录
+                config.AppSettings.Settings["xyw"].Value = xyw.Checked.ToString().Trim();
+                //移动选项框记录
+                config.AppSettings.Settings["cmcc"].Value = cmcc.Checked.ToString().Trim();
+                //联通选项框记录
+                config.AppSettings.Settings["unicom"].Value = unicom.Checked.ToString().Trim();
+                //电信选项框记录
+                config.AppSettings.Settings["telecom"].Value = telecom.Checked.ToString().Trim();
+                //用户名记录
+                config.AppSettings.Settings["username"].Value = UsernameTextBox.Text.Trim();
+                //密码记录
+                config.AppSettings.Settings["password"].Value = PasswordTextBox.Text.Trim();
+                //软件启动选项记录
+                config.AppSettings.Settings["runlogin"].Value = runlogin.Checked.ToString().Trim();
+                //启动连接选项记录
+                config.AppSettings.Settings["startlogin"].Value = startlogin.Checked.ToString().Trim();
+                //自动重连选项记录
+                config.AppSettings.Settings["autoreconnect"].Value = autoreconnect.Checked.ToString().Trim();
+                config.Save(ConfigurationSaveMode.Modified);
+
+                ConfigurationManager.RefreshSection("appSettings");
             }            
         }
 
