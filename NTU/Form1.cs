@@ -140,6 +140,8 @@ namespace NTU
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            e.Cancel = true;
+            this.Hide();
             //System.Environment.Exit(0);
             //System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
             //tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。  
@@ -408,11 +410,7 @@ namespace NTU
 
             try
             {
-                if (baidu.IndexOf("baidu") == -1)
-                {
-                    return false;
-                }
-                else if (baidu.IndexOf("baidu") == 0)
+                if (!Regex.IsMatch(baidu, @"baidu"))
                 {
                     return false;
                 }
@@ -601,6 +599,54 @@ namespace NTU
 
                 }
             }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (this.Visible)
+            {
+                this.Hide();
+            }
+            else
+            {
+                this.Show();
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            string file = System.Windows.Forms.Application.ExecutablePath;
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(file);
+
+            //校园网选项框记录
+            config.AppSettings.Settings["xyw"].Value = xyw.Checked.ToString().Trim();
+            //移动选项框记录
+            config.AppSettings.Settings["cmcc"].Value = cmcc.Checked.ToString().Trim();
+            //联通选项框记录
+            config.AppSettings.Settings["unicom"].Value = unicom.Checked.ToString().Trim();
+            //电信选项框记录
+            config.AppSettings.Settings["telecom"].Value = telecom.Checked.ToString().Trim();
+            //用户名记录
+            config.AppSettings.Settings["username"].Value = UsernameTextBox.Text.Trim();
+            //密码记录
+            config.AppSettings.Settings["password"].Value = PasswordTextBox.Text.Trim();
+            //软件启动选项记录
+            config.AppSettings.Settings["runlogin"].Value = runlogin.Checked.ToString().Trim();
+            //启动连接选项记录
+            config.AppSettings.Settings["startlogin"].Value = startlogin.Checked.ToString().Trim();
+            //自动重连选项记录
+            config.AppSettings.Settings["autoreconnect"].Value = autoreconnect.Checked.ToString().Trim();
+            config.Save(ConfigurationSaveMode.Modified);
+
+            ConfigurationManager.RefreshSection("appSettings");
+            System.Environment.Exit(0);
+            System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
+            tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。
+            notifyIcon1.Visible = false;   //设置图标不可见
+            this.Close();                  //关闭窗体
+            this.Dispose();                //释放资源
+            Application.Exit();            //关闭应用程序窗体
         }
     }
 }
