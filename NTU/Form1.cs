@@ -311,11 +311,31 @@ namespace NTU
             for (; ; )
             {
                 Thread.Sleep(1000);
-                //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+                if (autoreconnect.Checked == true)
+                {
+                    g_wifi = new Wifi();
+                    var t = g_wifi.GetAccessPoints();
+                    foreach (var item in t)
+                    {
+                        if (item.IsConnected == false)
+                        {
+                            if (item.Name == "NTU")
+                            {
+                                AuthRequest ar = new AuthRequest(item);
+                                ar.Password = "";
+                                item.Connect(ar);
+                            }
+                        }
+                    }
+                }
                 if (Netcheck()==false)
                 {
                     toolStripStatusLabel1.Text = "未连接";
                     CommonData.netstatus = "-1";
+                    if (autoreconnect.Checked == true)
+                    {
+                        denglu();
+                    }
                 }
                 else
                 {
@@ -324,21 +344,11 @@ namespace NTU
                     toolStripStatusLabel2.Text = CommonData.ip;
                 }
                 
+                
+                
             }
             
         }
-        /*
-        void bgworker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            if (e.ProgressPercentage.ToString() == "1")
-            {
-                toolStripStatusLabel1.Text = "已连接";
-            }
-            else
-            {
-                toolStripStatusLabel1.Text = "未连接";
-            }
-        }*/
 
         //https://www.jb51.net/article/53657.htm
         public static string GetHtmlByUrl(string url)
@@ -395,9 +405,14 @@ namespace NTU
         public static bool Netcheck()
         {
             string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+
             try
             {
                 if (baidu.IndexOf("baidu") == -1)
+                {
+                    return false;
+                }
+                else if (baidu.IndexOf("baidu") == 0)
                 {
                     return false;
                 }
