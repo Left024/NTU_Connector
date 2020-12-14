@@ -251,13 +251,21 @@ namespace NTU
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
                 Microsoft.Win32.RegistryKey run = key.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
                 run.SetValue("NTU", System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+                
 
             }
             else
             {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
-                Microsoft.Win32.RegistryKey run = key.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
-                run.SetValue("NTU", 123);
+                RegistryKey key = Registry.CurrentUser;
+
+                RegistryKey software = key.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+
+                try
+                {
+                    software.DeleteValue("NTU");
+                }
+                catch
+                { }
             }
             
         }
@@ -555,74 +563,80 @@ namespace NTU
 
         public void denglu()
         {
-            g_wifi = new Wifi();
-            var t = g_wifi.GetAccessPoints();
-            string name = Dns.GetHostName();
-            CommonData.ip = GetLocalIP();
-            if (xyw.Checked == true)
+            try
             {
-                CommonData.yys = "";
-            }
-            else if (cmcc.Checked == true)
-            {
-                CommonData.yys = "%40cmcc";
-            }
-            else if (unicom.Checked == true)
-            {
-                CommonData.yys = "%40unicom";
-            }
-            else if (telecom.Checked == true)
-            {
-                CommonData.yys = "%40telecom";
-            }
-            CommonData.username = UsernameTextBox.Text;
-            CommonData.password = PasswordTextBox.Text;
-            CommonData.url = "http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C" + CommonData.username + CommonData.yys + "&user_password=" + CommonData.password + "&wlan_user_ip=" + CommonData.ip + "&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=6376";
-            foreach (var item in t)
-            {
-                if (item.Name == "NTU")
+                g_wifi = new Wifi();
+                var t = g_wifi.GetAccessPoints();
+                string name = Dns.GetHostName();
+                CommonData.ip = GetLocalIP();
+                if (xyw.Checked == true)
                 {
-                    AuthRequest ar = new AuthRequest(item);
-                    ar.Password = "";
-                    if (item.IsConnected == false)
+                    CommonData.yys = "";
+                }
+                else if (cmcc.Checked == true)
+                {
+                    CommonData.yys = "%40cmcc";
+                }
+                else if (unicom.Checked == true)
+                {
+                    CommonData.yys = "%40unicom";
+                }
+                else if (telecom.Checked == true)
+                {
+                    CommonData.yys = "%40telecom";
+                }
+                CommonData.username = UsernameTextBox.Text;
+                CommonData.password = PasswordTextBox.Text;
+                CommonData.url = "http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C" + CommonData.username + CommonData.yys + "&user_password=" + CommonData.password + "&wlan_user_ip=" + CommonData.ip + "&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=6376";
+                foreach (var item in t)
+                {
+                    if (item.Name == "NTU")
                     {
-                        item.Connect(ar);
-                        for (; ; )
+                        AuthRequest ar = new AuthRequest(item);
+                        ar.Password = "";
+                        if (item.IsConnected == false)
                         {
-                            if (item.IsConnected == true)
+                            item.Connect(ar);
+                            for (; ; )
                             {
-                                for (; ; )
+                                if (item.IsConnected == true)
                                 {
-                                    //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
-                                    if (CommonData.netstatus == "-1")
+                                    for (; ; )
                                     {
-                                        string url = string.Format(CommonData.url);
-                                        using (var wc = new WebClient())
+                                        //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+                                        if (CommonData.netstatus == "-1")
                                         {
-                                            Encoding enc = Encoding.GetEncoding("UTF-8");
-                                            Byte[] pageData = wc.DownloadData(url);
-                                            string re = enc.GetString(pageData);
+                                            string url = string.Format(CommonData.url);
+                                            using (var wc = new WebClient())
+                                            {
+                                                Encoding enc = Encoding.GetEncoding("UTF-8");
+                                                Byte[] pageData = wc.DownloadData(url);
+                                                string re = enc.GetString(pageData);
+                                            }
+                                            break;
                                         }
                                         break;
                                     }
                                     break;
                                 }
-                                break;
                             }
                         }
-                    }
-                    else
-                    {
-                        string url = string.Format(CommonData.url);
-                        using (var wc = new WebClient())
+                        else
                         {
-                            Encoding enc = Encoding.GetEncoding("UTF-8");
-                            Byte[] pageData = wc.DownloadData(url);
-                            string re = enc.GetString(pageData);
+                            string url = string.Format(CommonData.url);
+                            using (var wc = new WebClient())
+                            {
+                                Encoding enc = Encoding.GetEncoding("UTF-8");
+                                Byte[] pageData = wc.DownloadData(url);
+                                string re = enc.GetString(pageData);
+                            }
                         }
-                    }
 
+                    }
                 }
+            }
+            catch
+            {
             }
         }
 
@@ -673,5 +687,7 @@ namespace NTU
             this.Dispose();                //释放资源
             Application.Exit();            //关闭应用程序窗体
         }
+
+        
     }
 }
