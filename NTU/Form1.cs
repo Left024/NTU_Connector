@@ -333,6 +333,7 @@ namespace NTU
                 string re = enc.GetString(pageData);
             }
             CommonData.logout = "1";
+            autoreconnect.Checked = false;
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
