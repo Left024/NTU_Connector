@@ -31,3 +31,4 @@ C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.exe.manifest
 C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\NTU.exe.manifest
 C:\Users\left\Documents\NTU\NTU\NTU\bin\Debug\NTU.application
 C:\Users\left\Documents\NTU\NTU\NTU\obj\Debug\NTU.application
+C:\Users\13797\Documents\NTU\NTU\obj\Debug\NTU.TrustInfo.xml
