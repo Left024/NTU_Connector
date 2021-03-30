@@ -18,6 +18,7 @@ namespace NTU
         static void Main()
         {
             //https://blog.csdn.net/xggbest/article/details/104231935
+            //test
             Process instance = RunningInstance();
             if (instance != null) //进程中已经有一个实例在运行
             {
