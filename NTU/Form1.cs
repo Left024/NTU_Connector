@@ -23,8 +23,14 @@ namespace NTU
     public partial class Form1 : Form
     {
         BackgroundWorker bgworker = new BackgroundWorker();
-        public Form1()
+        String arg = null;
+        public Form1(String[] args)
         {
+            if (args.Length > 0)
+            {
+                //获取启动时的命令行参数  
+                arg = args[0];
+            }
             InitializeComponent();
 
             bgworker.WorkerReportsProgress = true;
@@ -49,7 +55,12 @@ namespace NTU
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            if (arg != null)
+            {
+                //arg不为空,说明有启动参数,是从注册表启动的,则直接最小化到托盘  
+                this.Visible = false;
+                this.ShowInTaskbar = false;
+            }
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
             
@@ -250,7 +261,7 @@ namespace NTU
             {
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
                 Microsoft.Win32.RegistryKey run = key.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
-                run.SetValue("NTU", System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+                run.SetValue("NTU", System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName + " -s");
                 
 
             }

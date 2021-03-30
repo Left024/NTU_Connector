@@ -15,7 +15,7 @@ namespace NTU
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(String[] args)
         {
             //https://blog.csdn.net/xggbest/article/details/104231935
             //test
@@ -23,12 +23,13 @@ namespace NTU
             if (instance != null) //进程中已经有一个实例在运行
             {
                 HandleRunningInstance(instance);
+                MessageBox.Show("已经在运行!", "提示信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else //没有实例在运行
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Form1()); //***主窗体的Form名称**//
+                Application.Run(new Form1(args)); //***主窗体的Form名称**//
             }
         }
         #region 在进程中查找是否已经有实例在运行
