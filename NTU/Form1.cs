@@ -49,6 +49,7 @@ namespace NTU
             public static string ip;
             public static string logout;
             public static string netstatus;
+            public static int Bcheck;
         }
 
         Wifi g_wifi;
@@ -302,6 +303,7 @@ namespace NTU
                 startlogin.Checked = false;
                 runlogin.Checked = false;
                 autoreconnect.Checked = false;
+                notifyIcon1.Visible = true;
             }
             else
             {
@@ -379,6 +381,7 @@ namespace NTU
                 {
                     toolStripStatusLabel1.Text = "未连接";
                     CommonData.netstatus = "-1";
+                    CommonData.Bcheck = 0;
                     if (autoreconnect.Checked == true)
                     {
                         denglu();
@@ -389,6 +392,12 @@ namespace NTU
                     toolStripStatusLabel1.Text = "已连接";
                     CommonData.ip = GetLocalIP();
                     toolStripStatusLabel2.Text = CommonData.ip;
+                    if (CommonData.Bcheck == 1)
+                    {
+                        notifyIcon1.Visible = true;
+                        notifyIcon1.ShowBalloonTip(20000, "NTU", "已连接至校园网",
+                            ToolTipIcon.Info);
+                    }
                 }
                 
                 
@@ -461,6 +470,11 @@ namespace NTU
                 }
                 else
                 {
+                    CommonData.Bcheck = CommonData.Bcheck +1;
+                    if (CommonData.Bcheck == 1000)
+                    {
+                        CommonData.Bcheck = 2;
+                    }
                     return true;
                 }
             }
@@ -699,7 +713,5 @@ namespace NTU
             this.Dispose();                //释放资源
             Application.Exit();            //关闭应用程序窗体
         }
-
-        
     }
 }
