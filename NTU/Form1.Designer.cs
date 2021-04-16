@@ -50,7 +50,9 @@ namespace NTU
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -225,16 +227,33 @@ namespace NTU
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItem,
+            this.ToolStripMenuItem2,
             this.toolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            // 
+            // ToolStripMenuItem2
+            // 
+            this.ToolStripMenuItem2.CheckOnClick = true;
+            this.ToolStripMenuItem2.Name = "ToolStripMenuItem2";
+            this.ToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem2.Text = "自启高优先级";
+            this.ToolStripMenuItem2.Click += new System.EventHandler(this.自启高优先级ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "关闭软件";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // ToolStripMenuItem
+            // 
+            this.ToolStripMenuItem.CheckOnClick = true;
+            this.ToolStripMenuItem.Name = "ToolStripMenuItem";
+            this.ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem.Text = "连接通知";
             // 
             // Form1
             // 
@@ -295,6 +314,8 @@ namespace NTU
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem;
     }
 }
 

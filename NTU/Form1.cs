@@ -17,6 +17,10 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using System.IO;
 using Microsoft.Win32;
+using System.ServiceProcess;
+using System.Configuration.Install;
+using System.Collections;
+using System.Security.AccessControl;
 
 namespace NTU
 {
@@ -39,6 +43,10 @@ namespace NTU
             //bgworker.ProgressChanged += bgworker_ProgressChanged;
             //bgworker.RunWorkerCompleted += bgworker_RunWorkerCompleted;
         }
+
+        string serviceFilePath = $"{Application.StartupPath}\\NTU_Autoboot.exe";
+        string serviceName = "NTU";
+        //string loginTXT = $"{Application.StartupPath}\\NTU_login.txt";
 
         public class CommonData
         {
@@ -71,6 +79,7 @@ namespace NTU
             if (xywStr == "True")
             {
                 xyw.Checked = true;
+                CommonData.yys = "";
             }
             else
             { 
@@ -81,6 +90,7 @@ namespace NTU
             if (cmccStr == "True")
             {
                 cmcc.Checked = true;
+                CommonData.yys = "%40cmcc";
             }
             else
             {
@@ -91,6 +101,7 @@ namespace NTU
             if (unicomStr == "True")
             {
                 unicom.Checked = true;
+                CommonData.yys = "%40unicom";
             }
             else
             {
@@ -101,6 +112,7 @@ namespace NTU
             if (telecomStr == "True")
             {
                 telecom.Checked = true;
+                CommonData.yys = "%40telecom";
             }
             else
             {
@@ -140,6 +152,16 @@ namespace NTU
             {
                 autoreconnect.Checked = false;
             }
+            //连接通知读取
+            String notifycheck = ConfigurationManager.AppSettings["connectnotify"].ToString();
+            if (notifycheck == "True")
+            {
+                ToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                ToolStripMenuItem.Checked = false;
+            }
             bgworker.RunWorkerAsync();
             //软件启动时连接功能
 
@@ -147,7 +169,14 @@ namespace NTU
             {
                 denglu();
             }
-
+            if (this.IsServiceExisted("NTU"))
+            {
+                ToolStripMenuItem2.Checked = true;
+            }
+            else
+            {
+                ToolStripMenuItem2.Checked = false;
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -161,32 +190,7 @@ namespace NTU
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-
-            string file = System.Windows.Forms.Application.ExecutablePath;
-
-            Configuration config = ConfigurationManager.OpenExeConfiguration(file);
-            
-            //校园网选项框记录
-            config.AppSettings.Settings["xyw"].Value = xyw.Checked.ToString().Trim();
-            //移动选项框记录
-            config.AppSettings.Settings["cmcc"].Value = cmcc.Checked.ToString().Trim();
-            //联通选项框记录
-            config.AppSettings.Settings["unicom"].Value = unicom.Checked.ToString().Trim();
-            //电信选项框记录
-            config.AppSettings.Settings["telecom"].Value = telecom.Checked.ToString().Trim();
-            //用户名记录
-            config.AppSettings.Settings["username"].Value = UsernameTextBox.Text.Trim();
-            //密码记录
-            config.AppSettings.Settings["password"].Value = PasswordTextBox.Text.Trim();
-            //软件启动选项记录
-            config.AppSettings.Settings["runlogin"].Value = runlogin.Checked.ToString().Trim();
-            //启动连接选项记录
-            config.AppSettings.Settings["startlogin"].Value = startlogin.Checked.ToString().Trim();
-            //自动重连选项记录
-            config.AppSettings.Settings["autoreconnect"].Value = autoreconnect.Checked.ToString().Trim();
-            config.Save(ConfigurationSaveMode.Modified);
-
-            ConfigurationManager.RefreshSection("appSettings");
+            savesettings();
             System.Environment.Exit(0);
             System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
             tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。  
@@ -200,6 +204,7 @@ namespace NTU
                 cmcc.Checked = false;
                 unicom.Checked = false;
                 telecom.Checked = false;
+                CommonData.yys = "";
             }
         }
 
@@ -211,6 +216,7 @@ namespace NTU
                 xyw.Checked = false;
                 unicom.Checked = false;
                 telecom.Checked = false;
+                CommonData.yys = "%40cmcc";
             }
         }
 
@@ -222,6 +228,7 @@ namespace NTU
                 xyw.Checked = false;
                 cmcc.Checked = false;
                 telecom.Checked = false;
+                CommonData.yys = "%40unicom";
             }
         }
 
@@ -233,6 +240,7 @@ namespace NTU
                 xyw.Checked = false;
                 unicom.Checked = false;
                 cmcc.Checked = false;
+                CommonData.yys = "%40telecom";
             }
         }
 
@@ -260,6 +268,7 @@ namespace NTU
             }
             if (startlogin.Checked == true)
             {
+                AutoStart();
                 Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
                 Microsoft.Win32.RegistryKey run = key.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
                 run.SetValue("NTU", System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName + " -s");
@@ -268,6 +277,7 @@ namespace NTU
             }
             else
             {
+                CancelAutoStart();
                 RegistryKey key = Registry.CurrentUser;
 
                 RegistryKey software = key.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
@@ -308,31 +318,7 @@ namespace NTU
             else
             {
                 denglu();
-                string file = System.Windows.Forms.Application.ExecutablePath;
-
-                Configuration config = ConfigurationManager.OpenExeConfiguration(file);
-
-                //校园网选项框记录
-                config.AppSettings.Settings["xyw"].Value = xyw.Checked.ToString().Trim();
-                //移动选项框记录
-                config.AppSettings.Settings["cmcc"].Value = cmcc.Checked.ToString().Trim();
-                //联通选项框记录
-                config.AppSettings.Settings["unicom"].Value = unicom.Checked.ToString().Trim();
-                //电信选项框记录
-                config.AppSettings.Settings["telecom"].Value = telecom.Checked.ToString().Trim();
-                //用户名记录
-                config.AppSettings.Settings["username"].Value = UsernameTextBox.Text.Trim();
-                //密码记录
-                config.AppSettings.Settings["password"].Value = PasswordTextBox.Text.Trim();
-                //软件启动选项记录
-                config.AppSettings.Settings["runlogin"].Value = runlogin.Checked.ToString().Trim();
-                //启动连接选项记录
-                config.AppSettings.Settings["startlogin"].Value = startlogin.Checked.ToString().Trim();
-                //自动重连选项记录
-                config.AppSettings.Settings["autoreconnect"].Value = autoreconnect.Checked.ToString().Trim();
-                config.Save(ConfigurationSaveMode.Modified);
-
-                ConfigurationManager.RefreshSection("appSettings");
+                savesettings();
             }            
         }
 
@@ -392,11 +378,14 @@ namespace NTU
                     toolStripStatusLabel1.Text = "已连接";
                     CommonData.ip = GetLocalIP();
                     toolStripStatusLabel2.Text = CommonData.ip;
-                    if (CommonData.Bcheck == 1)
+                    if (ToolStripMenuItem.Checked==true)
                     {
-                        notifyIcon1.Visible = true;
-                        notifyIcon1.ShowBalloonTip(20000, "NTU", "已连接至校园网",
-                            ToolTipIcon.Info);
+                        if (CommonData.Bcheck == 1)
+                        {
+                            notifyIcon1.Visible = true;
+                            notifyIcon1.ShowBalloonTip(20000, "NTU", "已连接至校园网",
+                                ToolTipIcon.Info);
+                        }
                     }
                 }
                 
@@ -680,6 +669,210 @@ namespace NTU
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            savesettings();
+            System.Environment.Exit(0);
+            System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
+            tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。
+            notifyIcon1.Visible = false;   //设置图标不可见
+            this.Close();                  //关闭窗体
+            this.Dispose();                //释放资源
+            Application.Exit();            //关闭应用程序窗体
+        }
+
+        private void 自启高优先级ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ToolStripMenuItem2.Checked == true)
+            {
+                if (startlogin.Checked == true)
+                {
+                    if (UsernameTextBox.Text == "")
+                    {
+                        MessageBox.Show("用户名未填写", "提示");
+                        ToolStripMenuItem2.Checked = false;
+                    }
+                    else
+                    {
+                        if (PasswordTextBox.Text == "")
+                        {
+                            MessageBox.Show("密码未填写", "提示");
+                            ToolStripMenuItem2.Checked = false;
+                        }
+                        else
+                        {
+                            System.IO.File.Delete($"{Application.StartupPath}\\NTU_login.txt");
+                            WriteFile(CommonData.yys);
+                            WriteFile(UsernameTextBox.Text);
+                            WriteFile(PasswordTextBox.Text);
+                            //安装服务
+                            if (this.IsServiceExisted(serviceName)) this.UninstallService(serviceName);
+                            this.InstallService(serviceFilePath);
+                            //启动服务
+                            //if (this.IsServiceExisted(serviceName)) this.ServiceStart(serviceName);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("开机自启未勾选", "提示");
+                    ToolStripMenuItem2.Checked = false;
+                }
+            }
+            else
+            {
+                //停止服务
+                if (this.IsServiceExisted(serviceName)) this.ServiceStop(serviceName);
+                //卸载服务
+                if (this.IsServiceExisted(serviceName))
+                {
+                    this.ServiceStop(serviceName);
+                    this.UninstallService(serviceFilePath);
+                }
+                
+            }
+        }
+
+        //判断服务是否存在
+        private bool IsServiceExisted(string serviceName)
+        {
+            ServiceController[] services = ServiceController.GetServices();
+            foreach (ServiceController sc in services)
+            {
+                if (sc.ServiceName.ToLower() == serviceName.ToLower())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //安装服务
+        private void InstallService(string serviceFilePath)
+        {
+            using (AssemblyInstaller installer = new AssemblyInstaller())
+            {
+                installer.UseNewContext = true;
+                installer.Path = serviceFilePath;
+                IDictionary savedState = new Hashtable();
+                installer.Install(savedState);
+                installer.Commit(savedState);
+            }
+        }
+
+        //卸载服务
+        private void UninstallService(string serviceFilePath)
+        {
+            using (AssemblyInstaller installer = new AssemblyInstaller())
+            {
+                installer.UseNewContext = true;
+                installer.Path = serviceFilePath;
+                installer.Uninstall(null);
+            }
+        }
+
+        //启动服务
+        private void ServiceStart(string serviceName)
+        {
+            using (ServiceController control = new ServiceController(serviceName))
+            {
+                if (control.Status == ServiceControllerStatus.Stopped)
+                {
+                    control.Start();
+                }
+            }
+        }
+
+        //停止服务
+        private void ServiceStop(string serviceName)
+        {
+            using (ServiceController control = new ServiceController(serviceName))
+            {
+                if (control.Status == ServiceControllerStatus.Running)
+                {
+                    control.Stop();
+                }
+            }
+        }
+
+        public static void WriteFile(String str)
+        {
+            StreamWriter sw = new StreamWriter($"{Application.StartupPath}\\NTU_login.txt", true, System.Text.Encoding.Default);
+            sw.WriteLine(str);
+            sw.Close();
+        }
+
+        //https://blog.csdn.net/m0_37670686/article/details/108356836
+        private void AutoStart()
+        {
+            var starupPath = GetType().Assembly.Location;
+            try
+            {
+                var fileName = starupPath + " -s";
+                var shortFileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
+                //打开子键节点
+                var myReg = Registry.LocalMachine.OpenSubKey(
+                    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", RegistryKeyPermissionCheck.ReadWriteSubTree,
+                    RegistryRights.FullControl);
+                if (myReg == null)
+                {
+                    //如果子键节点不存在，则创建之
+                    myReg = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run");
+                }
+                if (myReg != null && myReg.GetValue(shortFileName) != null)
+                {
+                    //在注册表中设置自启动程序
+                    myReg.DeleteValue(shortFileName);
+                    myReg.SetValue(shortFileName, fileName);
+                }
+
+                else if (myReg != null && myReg.GetValue(shortFileName) == null)
+                {
+                    myReg.SetValue(shortFileName, fileName);
+
+                }
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void CancelAutoStart()
+        {
+            var starupPath = GetType().Assembly.Location;
+            try
+            {
+                var fileName = starupPath + " -s";
+                var shortFileName = fileName.Substring(fileName.LastIndexOf('\\') + 1);
+                //打开子键节点
+                var myReg = Registry.LocalMachine.OpenSubKey(
+                    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", RegistryKeyPermissionCheck.ReadWriteSubTree,
+                    RegistryRights.FullControl);
+                if (myReg == null)
+                {
+                    //如果子键节点不存在，则创建之
+                    myReg = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run");
+                }
+                if (myReg != null && myReg.GetValue(shortFileName) != null)
+                {
+                    //在注册表中设置自启动程序
+                    myReg.DeleteValue(shortFileName);
+                    // myReg.SetValue(shortFileName, fileName);
+                }
+
+                else if (myReg != null && myReg.GetValue(shortFileName) == null)
+                {
+                    // myReg.SetValue(shortFileName, fileName);
+                    return;
+                }
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        public void savesettings()
+        {
             string file = System.Windows.Forms.Application.ExecutablePath;
 
             Configuration config = ConfigurationManager.OpenExeConfiguration(file);
@@ -702,16 +895,11 @@ namespace NTU
             config.AppSettings.Settings["startlogin"].Value = startlogin.Checked.ToString().Trim();
             //自动重连选项记录
             config.AppSettings.Settings["autoreconnect"].Value = autoreconnect.Checked.ToString().Trim();
+            //连接通知选项记录
+            config.AppSettings.Settings["connectnotify"].Value = ToolStripMenuItem.Checked.ToString().Trim();
             config.Save(ConfigurationSaveMode.Modified);
 
             ConfigurationManager.RefreshSection("appSettings");
-            System.Environment.Exit(0);
-            System.Diagnostics.Process tt = System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id);
-            tt.Kill();//直接杀死与本程序相关的所有进程，有可能会导致数据丢失，但是不会抛出异常。
-            notifyIcon1.Visible = false;   //设置图标不可见
-            this.Close();                  //关闭窗体
-            this.Dispose();                //释放资源
-            Application.Exit();            //关闭应用程序窗体
         }
     }
 }

@@ -1,0 +1,11 @@
+C:\Users\left\Documents\NTU\NTU_Autoboot\bin\Debug\NTU_Autoboot.exe.config
+C:\Users\left\Documents\NTU\NTU_Autoboot\bin\Debug\NTU_Autoboot.exe
+C:\Users\left\Documents\NTU\NTU_Autoboot\bin\Debug\NTU_Autoboot.pdb
+C:\Users\left\Documents\NTU\NTU_Autoboot\obj\Debug\NTU_Autoboot.ProjectInstaller.resources
+C:\Users\left\Documents\NTU\NTU_Autoboot\obj\Debug\NTU_Autoboot.csproj.GenerateResource.cache
+C:\Users\left\Documents\NTU\NTU_Autoboot\obj\Debug\NTU_Autoboot.csproj.CoreCompileInputs.cache
+C:\Users\left\Documents\NTU\NTU_Autoboot\obj\Debug\NTU_Autoboot.exe
+C:\Users\left\Documents\NTU\NTU_Autoboot\obj\Debug\NTU_Autoboot.pdb
+C:\Users\left\Documents\NTU\NTU_Autoboot\obj\Debug\NTU_Autoboot.Service1.resources
+C:\Users\left\Documents\NTU\NTU_Autoboot\bin\Debug\SimpleWifi.dll
+C:\Users\left\Documents\NTU\NTU_Autoboot\obj\Debug\NTU_Autoboot.csproj.CopyComplete
