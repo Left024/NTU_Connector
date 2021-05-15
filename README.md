@@ -1,5 +1,5 @@
 # NTU_Connector
-南通大学校园网自动连接客户端
+南通大学校园网 Windows 客户端
 
 [Android 版](https://github.com/Left024/NTU_Connector_for_Android)
 
