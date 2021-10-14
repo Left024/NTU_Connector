@@ -50,17 +50,22 @@ namespace NTU
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.连接方式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.无线连接ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.有线连接ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // xyw
             // 
             this.xyw.AutoSize = true;
-            this.xyw.Location = new System.Drawing.Point(30, 24);
+            this.xyw.Location = new System.Drawing.Point(35, 28);
             this.xyw.Name = "xyw";
             this.xyw.Size = new System.Drawing.Size(59, 16);
             this.xyw.TabIndex = 0;
@@ -71,7 +76,7 @@ namespace NTU
             // cmcc
             // 
             this.cmcc.AutoSize = true;
-            this.cmcc.Location = new System.Drawing.Point(109, 24);
+            this.cmcc.Location = new System.Drawing.Point(109, 28);
             this.cmcc.Name = "cmcc";
             this.cmcc.Size = new System.Drawing.Size(47, 16);
             this.cmcc.TabIndex = 1;
@@ -82,7 +87,7 @@ namespace NTU
             // unicom
             // 
             this.unicom.AutoSize = true;
-            this.unicom.Location = new System.Drawing.Point(180, 24);
+            this.unicom.Location = new System.Drawing.Point(180, 28);
             this.unicom.Name = "unicom";
             this.unicom.Size = new System.Drawing.Size(47, 16);
             this.unicom.TabIndex = 2;
@@ -93,7 +98,7 @@ namespace NTU
             // telecom
             // 
             this.telecom.AutoSize = true;
-            this.telecom.Location = new System.Drawing.Point(258, 24);
+            this.telecom.Location = new System.Drawing.Point(258, 28);
             this.telecom.Name = "telecom";
             this.telecom.Size = new System.Drawing.Size(47, 16);
             this.telecom.TabIndex = 3;
@@ -231,29 +236,62 @@ namespace NTU
             this.ToolStripMenuItem2,
             this.toolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 70);
+            // 
+            // ToolStripMenuItem
+            // 
+            this.ToolStripMenuItem.CheckOnClick = true;
+            this.ToolStripMenuItem.Name = "ToolStripMenuItem";
+            this.ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.ToolStripMenuItem.Text = "连接通知";
             // 
             // ToolStripMenuItem2
             // 
             this.ToolStripMenuItem2.CheckOnClick = true;
             this.ToolStripMenuItem2.Name = "ToolStripMenuItem2";
-            this.ToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItem2.Size = new System.Drawing.Size(148, 22);
             this.ToolStripMenuItem2.Text = "自启高优先级";
             this.ToolStripMenuItem2.Click += new System.EventHandler(this.自启高优先级ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItem1.Text = "关闭软件";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
-            // ToolStripMenuItem
+            // menuStrip1
             // 
-            this.ToolStripMenuItem.CheckOnClick = true;
-            this.ToolStripMenuItem.Name = "ToolStripMenuItem";
-            this.ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ToolStripMenuItem.Text = "连接通知";
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.连接方式ToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(362, 25);
+            this.menuStrip1.TabIndex = 14;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // 连接方式ToolStripMenuItem
+            // 
+            this.连接方式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.无线连接ToolStripMenuItem,
+            this.有线连接ToolStripMenuItem});
+            this.连接方式ToolStripMenuItem.Name = "连接方式ToolStripMenuItem";
+            this.连接方式ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.连接方式ToolStripMenuItem.Text = "连接方式";
+            // 
+            // 无线连接ToolStripMenuItem
+            // 
+            this.无线连接ToolStripMenuItem.Name = "无线连接ToolStripMenuItem";
+            this.无线连接ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.无线连接ToolStripMenuItem.Text = "无线连接";
+            this.无线连接ToolStripMenuItem.Click += new System.EventHandler(this.无线连接ToolStripMenuItem_Click);
+            // 
+            // 有线连接ToolStripMenuItem
+            // 
+            this.有线连接ToolStripMenuItem.Name = "有线连接ToolStripMenuItem";
+            this.有线连接ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.有线连接ToolStripMenuItem.Text = "有线连接";
+            this.有线连接ToolStripMenuItem.Click += new System.EventHandler(this.有线连接ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -261,6 +299,7 @@ namespace NTU
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(362, 231);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.autoreconnect);
             this.Controls.Add(this.startlogin);
             this.Controls.Add(this.runlogin);
@@ -275,6 +314,7 @@ namespace NTU
             this.Controls.Add(this.cmcc);
             this.Controls.Add(this.xyw);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
@@ -287,6 +327,8 @@ namespace NTU
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -316,6 +358,10 @@ namespace NTU
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 连接方式ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 无线连接ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 有线连接ToolStripMenuItem;
     }
 }
 

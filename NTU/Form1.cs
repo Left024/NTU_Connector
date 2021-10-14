@@ -58,6 +58,7 @@ namespace NTU
             public static string logout;
             public static string netstatus;
             public static int Bcheck;
+            public static bool isW;
         }
 
         Wifi g_wifi;
@@ -72,8 +73,22 @@ namespace NTU
             }
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
             this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
-            
-
+            /*notifyIcon1.Visible = true;
+            notifyIcon1.ShowBalloonTip(20000, "NTU", ""+GetLocalIP(), ToolTipIcon.Info);*/
+            //连接类型读取
+            String isWifi = ConfigurationManager.AppSettings["iswifi"].ToString();
+            if (isWifi == "True")
+            {
+                无线连接ToolStripMenuItem.Checked = true;
+                有线连接ToolStripMenuItem.Checked = false;
+                CommonData.isW = true;
+            }
+            else 
+            {
+                无线连接ToolStripMenuItem.Checked = false;
+                有线连接ToolStripMenuItem.Checked = true;
+                CommonData.isW = false;
+            }
             //校园网选项框读取
             String xywStr = ConfigurationManager.AppSettings["xyw"].ToString();
             if (xywStr == "True")
@@ -164,7 +179,6 @@ namespace NTU
             }
             bgworker.RunWorkerAsync();
             //软件启动时连接功能
-
             if (runlogin.Checked == true)
             {
                 denglu();
@@ -346,7 +360,7 @@ namespace NTU
             for (; ; )
             {
                 Thread.Sleep(1000);
-                if (autoreconnect.Checked == true)
+                if (autoreconnect.Checked == true && CommonData.isW)
                 {
                     g_wifi = new Wifi();
                     var t = g_wifi.GetAccessPoints();
@@ -398,7 +412,7 @@ namespace NTU
         //https://www.jb51.net/article/53657.htm
         public static string GetHtmlByUrl(string url)
         {
-            using (WebClient wc = new WebClient())
+            /*using (WebClient wc = new WebClient())
             {
                 try
                 {
@@ -425,6 +439,14 @@ namespace NTU
                 {
                     return null;
                 }
+            }*/
+            string urll = string.Format(url);
+            using (var wc = new WebClient())
+            {
+                Encoding enc = Encoding.GetEncoding("UTF-8");
+                Byte[] pageData = wc.DownloadData(url);
+                string re = enc.GetString(pageData);
+                return re;
             }
         }
 
@@ -449,11 +471,11 @@ namespace NTU
 
         public static bool Netcheck()
         {
-            string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+            string baidu = GetHtmlByUrl("http://210.29.79.141/drcom/chkstatus?callback=dr1002&v=4857");
 
             try
             {
-                if (!Regex.IsMatch(baidu, @"baidu"))
+                if (!Regex.IsMatch(baidu, @CommonData.username))
                 {
                     return false;
                 }
@@ -580,9 +602,6 @@ namespace NTU
         {
             try
             {
-                g_wifi = new Wifi();
-                var t = g_wifi.GetAccessPoints();
-                string name = Dns.GetHostName();
                 CommonData.ip = GetLocalIP();
                 if (xyw.Checked == true)
                 {
@@ -602,41 +621,64 @@ namespace NTU
                 }
                 CommonData.username = UsernameTextBox.Text;
                 CommonData.password = PasswordTextBox.Text;
-                CommonData.url = "http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C" + CommonData.username + CommonData.yys + "&user_password=" + CommonData.password + "&wlan_user_ip=" + CommonData.ip + "&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=6376";
-                foreach (var item in t)
+                CommonData.url = "http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C" + CommonData.username + CommonData.yys + "&user_password=" + CommonData.password + "&wlan_user_ip=" + CommonData.ip + "&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=&jsVersion=3.3.2&v=7723";
+                if (CommonData.isW)
                 {
-                    if (item.Name == "NTU")
+                    g_wifi = new Wifi();
+                    var t = g_wifi.GetAccessPoints();
+                    string name = Dns.GetHostName();
+                    foreach (var item in t)
                     {
-                        AuthRequest ar = new AuthRequest(item);
-                        ar.Password = "";
-                        if (item.IsConnected == false)
+                        if (item.Name == "NTU")
                         {
-                            item.Connect(ar);
-                            for (; ; )
+                            AuthRequest ar = new AuthRequest(item);
+                            ar.Password = "";
+                            if (item.IsConnected == false)
                             {
-                                if (item.IsConnected == true)
+                                item.Connect(ar);
+                                for (; ; )
                                 {
-                                    for (; ; )
+                                    if (item.IsConnected == true)
                                     {
-                                        //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
-                                        if (CommonData.netstatus == "-1")
+                                        for (; ; )
                                         {
-                                            string url = string.Format(CommonData.url);
-                                            using (var wc = new WebClient())
+                                            //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+                                            if (CommonData.netstatus == "-1")
                                             {
-                                                Encoding enc = Encoding.GetEncoding("UTF-8");
-                                                Byte[] pageData = wc.DownloadData(url);
-                                                string re = enc.GetString(pageData);
+                                                string url = string.Format(CommonData.url);
+                                                using (var wc = new WebClient())
+                                                {
+                                                    Encoding enc = Encoding.GetEncoding("UTF-8");
+                                                    Byte[] pageData = wc.DownloadData(url);
+                                                    string re = enc.GetString(pageData);
+                                                }
+                                                break;
                                             }
                                             break;
                                         }
                                         break;
                                     }
-                                    break;
                                 }
                             }
+                            else
+                            {
+                                string url = string.Format(CommonData.url);
+                                using (var wc = new WebClient())
+                                {
+                                    Encoding enc = Encoding.GetEncoding("UTF-8");
+                                    Byte[] pageData = wc.DownloadData(url);
+                                    string re = enc.GetString(pageData);
+                                }
+                            }
+
                         }
-                        else
+                    }
+                }
+                else 
+                {
+                    /*while (true) 
+                    {
+                        if (CommonData.netstatus == "-1")
                         {
                             string url = string.Format(CommonData.url);
                             using (var wc = new WebClient())
@@ -646,9 +688,21 @@ namespace NTU
                                 string re = enc.GetString(pageData);
                             }
                         }
+                        else 
+                        {
+                            break;
+                        }
+                    }*/
 
+                    string url = string.Format(CommonData.url);
+                    using (var wc = new WebClient())
+                    {
+                        Encoding enc = Encoding.GetEncoding("UTF-8");
+                        Byte[] pageData = wc.DownloadData(url);
+                        string re = enc.GetString(pageData);
                     }
                 }
+                
             }
             catch
             {
@@ -657,14 +711,15 @@ namespace NTU
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (this.Visible)
+            /*if (this.Visible)
             {
                 this.Hide();
             }
             else
-            {
-                this.Show();
-            }
+            {*/
+            //this.Show();
+            //}
+            ShowForm();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -897,9 +952,34 @@ namespace NTU
             config.AppSettings.Settings["autoreconnect"].Value = autoreconnect.Checked.ToString().Trim();
             //连接通知选项记录
             config.AppSettings.Settings["connectnotify"].Value = ToolStripMenuItem.Checked.ToString().Trim();
+            //连接类型记录
+            config.AppSettings.Settings["iswifi"].Value = 无线连接ToolStripMenuItem.Checked.ToString().Trim();
             config.Save(ConfigurationSaveMode.Modified);
 
             ConfigurationManager.RefreshSection("appSettings");
+        }
+
+        private void ShowForm()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            this.Activate();
+            this.ShowInTaskbar = true;
+            SetVisibleCore(true);
+        }
+
+        private void 无线连接ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            无线连接ToolStripMenuItem.Checked = true;
+            有线连接ToolStripMenuItem.Checked = false;
+            CommonData.isW = true;
+        }
+
+        private void 有线连接ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            无线连接ToolStripMenuItem.Checked = false;
+            有线连接ToolStripMenuItem.Checked = true;
+            CommonData.isW = false;
         }
     }
 }

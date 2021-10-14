@@ -37,6 +37,7 @@ namespace NTU_Autoboot
             public static string ip;
             public static string netstatus;
             public static int Bcheck;
+            public static bool isW;
         }
 
         Wifi g_wifi;
@@ -87,60 +88,74 @@ namespace NTU_Autoboot
         {
             try
             {
-                g_wifi = new Wifi();
-                var t = g_wifi.GetAccessPoints();
-                string name = Dns.GetHostName();
                 CommonData.ip = GetLocalIP();
                 CommonData.yys = logintxt[0];
                 CommonData.username = logintxt[1];
                 CommonData.password = logintxt[2];
                 CommonData.url = "http://210.29.79.141:801/eportal/?c=Portal&a=login&callback=dr1003&login_method=1&user_account=%2C0%2C" + CommonData.username + CommonData.yys + "&user_password=" + CommonData.password + "&wlan_user_ip=" + CommonData.ip + "&wlan_user_ipv6=&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=ME60&jsVersion=3.3.2&v=6376";
-                foreach (var item in t)
+                if (CommonData.isW)
                 {
-                    if (item.Name == "NTU")
+                    g_wifi = new Wifi();
+                    var t = g_wifi.GetAccessPoints();
+                    string name = Dns.GetHostName();
+                    foreach (var item in t)
                     {
-                        AuthRequest ar = new AuthRequest(item);
-                        ar.Password = "";
-                        if (item.IsConnected == false)
+                        if (item.Name == "NTU")
                         {
-                            item.Connect(ar);
-                            for (; ; )
+                            AuthRequest ar = new AuthRequest(item);
+                            ar.Password = "";
+                            if (item.IsConnected == false)
                             {
-                                if (item.IsConnected == true)
+                                item.Connect(ar);
+                                for (; ; )
                                 {
-                                    for (; ; )
+                                    if (item.IsConnected == true)
                                     {
-                                        //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
-                                        if (CommonData.netstatus == "-1")
+                                        for (; ; )
                                         {
-                                            string url = string.Format(CommonData.url);
-                                            using (var wc = new WebClient())
+                                            //string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+                                            if (CommonData.netstatus == "-1")
                                             {
-                                                Encoding enc = Encoding.GetEncoding("UTF-8");
-                                                Byte[] pageData = wc.DownloadData(url);
-                                                string re = enc.GetString(pageData);
+                                                string url = string.Format(CommonData.url);
+                                                using (var wc = new WebClient())
+                                                {
+                                                    Encoding enc = Encoding.GetEncoding("UTF-8");
+                                                    Byte[] pageData = wc.DownloadData(url);
+                                                    string re = enc.GetString(pageData);
+                                                }
+                                                break;
                                             }
                                             break;
                                         }
                                         break;
                                     }
-                                    break;
                                 }
                             }
-                        }
-                        else
-                        {
-                            string url = string.Format(CommonData.url);
-                            using (var wc = new WebClient())
+                            else
                             {
-                                Encoding enc = Encoding.GetEncoding("UTF-8");
-                                Byte[] pageData = wc.DownloadData(url);
-                                string re = enc.GetString(pageData);
+                                string url = string.Format(CommonData.url);
+                                using (var wc = new WebClient())
+                                {
+                                    Encoding enc = Encoding.GetEncoding("UTF-8");
+                                    Byte[] pageData = wc.DownloadData(url);
+                                    string re = enc.GetString(pageData);
+                                }
                             }
-                        }
 
+                        }
                     }
                 }
+                else 
+                {
+                    string url = string.Format(CommonData.url);
+                    using (var wc = new WebClient())
+                    {
+                        Encoding enc = Encoding.GetEncoding("UTF-8");
+                        Byte[] pageData = wc.DownloadData(url);
+                        string re = enc.GetString(pageData);
+                    }
+                }
+                
             }
             catch
             {
@@ -251,11 +266,11 @@ namespace NTU_Autoboot
 
         public static bool Netcheck()
         {
-            string baidu = GetHtmlByUrl("http://baidu.com/1.txt");
+            string baidu = GetHtmlByUrl("http://210.29.79.141/drcom/chkstatus?callback=dr1002&v=4857");
 
             try
             {
-                if (!Regex.IsMatch(baidu, @"baidu"))
+                if (!Regex.IsMatch(baidu, @CommonData.username))
                 {
                     return false;
                 }
@@ -277,7 +292,7 @@ namespace NTU_Autoboot
 
         public static string GetHtmlByUrl(string url)
         {
-            using (WebClient wc = new WebClient())
+            /*using (WebClient wc = new WebClient())
             {
                 try
                 {
@@ -304,6 +319,14 @@ namespace NTU_Autoboot
                 {
                     return null;
                 }
+            }*/
+            string urll = string.Format(url);
+            using (var wc = new WebClient())
+            {
+                Encoding enc = Encoding.GetEncoding("UTF-8");
+                Byte[] pageData = wc.DownloadData(url);
+                string re = enc.GetString(pageData);
+                return re;
             }
         }
 
